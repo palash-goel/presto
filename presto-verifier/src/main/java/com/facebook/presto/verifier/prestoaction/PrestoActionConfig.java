@@ -91,7 +91,8 @@ public class PrestoActionConfig
     }
 
     @NotNull
-    public String getApplicationName() {
+    public String getApplicationName()
+    {
         return applicationName;
     }
 
