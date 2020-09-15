@@ -60,6 +60,7 @@ public class JdbcPrestoAction
     private final Duration checksumTimeout;
     private final String testId;
     private final Optional<String> testName;
+    private final String applicationName;
 
     private final RetryDriver<QueryException> networkRetry;
     private final RetryDriver<QueryException> prestoRetry;
@@ -81,6 +82,7 @@ public class JdbcPrestoAction
 
         this.jdbcUrl = requireNonNull(prestoActionConfig.getJdbcUrl(), "jdbcUrl is null");
         this.queryTimeout = requireNonNull(prestoActionConfig.getQueryTimeout(), "queryTimeout is null");
+        this.applicationName = requireNonNull(prestoActionConfig.getApplicationName(), "applicationName is null");
         this.metadataTimeout = requireNonNull(metadataTimeout, "metadataTimeout is null");
         this.checksumTimeout = requireNonNull(checksumTimeout, "checksumTimeout is null");
         this.testId = requireNonNull(verifierConfig.getTestId(), "testId is null");
@@ -150,7 +152,7 @@ public class JdbcPrestoAction
                 .unwrap(PrestoConnection.class);
 
         try {
-            connection.setClientInfo("ApplicationName", "verifier-test");
+            connection.setClientInfo("ApplicationName", applicationName);
             connection.setClientInfo("ClientInfo", clientInfo);
             connection.setCatalog(queryConfiguration.getCatalog());
             connection.setSchema(queryConfiguration.getSchema());
